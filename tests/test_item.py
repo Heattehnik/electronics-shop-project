@@ -15,3 +15,7 @@ def test_calculate_total_price(item):
 def test_apply_discount(item):
     item.apply_discount()
     assert item.price == 170
+
+
+def test_string_to_digit(item):
+    assert Item.string_to_number('6.2') == 6

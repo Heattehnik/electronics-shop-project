@@ -1,4 +1,6 @@
 import csv
+from typing import List, Any
+
 
 class Item:
     """
@@ -6,6 +8,13 @@ class Item:
     """
     pay_rate = 0.85
     all = []
+
+    @staticmethod
+    def string_to_number(string: str):
+        """
+        преобразует строку в число
+        """
+        return int(float(string))
 
     def __init__(self, name: str, price: float, quantity: int) -> None:
         """
@@ -19,8 +28,6 @@ class Item:
         self.price = price
         self.quantity = quantity
         self.all.append(self)
-    def __repr__(self):
-        return self.__name
 
     @property
     def name(self):
@@ -28,6 +35,8 @@ class Item:
 
     @name.setter
     def name(self, name):
+        if len(name) > 10:
+            raise Exception('Длина не может превышать 10 символов')
         self.__name = name
 
     def calculate_total_price(self) -> float:
@@ -43,10 +52,15 @@ class Item:
         Применяет установленную скидку для конкретного товара.
         """
         self.price = self.price * self.pay_rate
+
     @classmethod
     def instantiate_from_csv(cls, file):
+        """
+        Заполняет список товаров из файла csv
+        """
         with open(file, 'r', newline='', encoding='windows-1251') as csvfile:
             result = csv.reader(csvfile)
+            header = next(result)
             for row in result:
                 name, price, quantity = row
                 cls(name, price, quantity)
