@@ -27,7 +27,7 @@ class Item:
         self.__name = name
         self.price = price
         self.quantity = quantity
-        self.all.append(self)
+        Item.all.append(self)
 
     @property
     def name(self):
@@ -58,6 +58,7 @@ class Item:
         """
         Заполняет список товаров из файла csv
         """
+        Item.all.clear()
         with open(file, 'r', newline='', encoding='windows-1251') as csvfile:
             result = csv.reader(csvfile)
             header = next(result)

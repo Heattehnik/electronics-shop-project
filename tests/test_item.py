@@ -19,3 +19,4 @@ def test_apply_discount(item):
 
 def test_string_to_digit(item):
     assert Item.string_to_number('6.2') == 6
+
