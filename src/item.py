@@ -1,4 +1,5 @@
 import csv
+# from src.phone import Phone
 from typing import List, Any
 
 
@@ -34,6 +35,10 @@ class Item:
 
     def __str__(self):
         return f'{self.__name}'
+
+    def __add__(self, other):
+        if isinstance(other, Item):
+            return self.quantity + other.quantity
 
     @property
     def name(self):
