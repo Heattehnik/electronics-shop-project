@@ -1,6 +1,12 @@
-import csv
-# from src.phone import Phone
-from typing import List, Any
+from csv import DictReader
+
+
+class InstantiateCSVError(Exception):
+    def __init__(self, *args, **kwargs):
+        self.message = args[0] if args else 'поврежден'
+
+    def __str__(self):
+        return f'{self.message}'
 
 
 class Item:
@@ -71,12 +77,21 @@ class Item:
         Заполняет список товаров из файла csv
         """
         Item.all.clear()
-        with open(file, 'r', newline='', encoding='windows-1251') as csvfile:
-            result = csv.reader(csvfile)
-            header = next(result)
-            for row in result:
-                name, price, quantity = row
-                cls(name, price, quantity)
+        try:
+            with open(file, 'r', newline='', encoding='windows-1251') as csvfile:
+                reader = DictReader(csvfile)
+                for row in reader:
+                    if len(row) < 3 or row.get(None):
+                        raise InstantiateCSVError
+                    cls(row['name'], float(row['price']), int(row['quantity']))
+        except FileNotFoundError:
+            print(f'Отсутствует файл {file}')
+            return f'Отсутствует файл {file}'
+        except InstantiateCSVError as e:
+            print(f'{file} {e}')
+            return f'{file} {e}'
+
+
 
 
 

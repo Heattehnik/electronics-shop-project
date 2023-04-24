@@ -1,6 +1,7 @@
 import pytest
 
 from src.item import Item
+from src.item import InstantiateCSVError
 
 
 @pytest.fixture
@@ -39,3 +40,7 @@ def test_name(item):
 def test__add__(item):
     assert item + item == 80
 
+
+def test_instantiate_from_csv():
+    assert Item.instantiate_from_csv('../src/item.csv') == 'Отсутствует файл ../src/item.csv'
+    assert Item.instantiate_from_csv('../src/damaged_items.csv') == '../src/damaged_items.csv поврежден'
